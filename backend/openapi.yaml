@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: Classroom Presence System API
+  version: 1.0.0
+  description: >
+    REST API for the CPS team project. Authentication for teachers, students and admins,
+    bulk upload of attendance records from the teacher app, and aggregated statistics for
+    the web dashboard. All endpoints except /login require a Bearer JWT.
+servers:
+  - url: http://localhost/cps/api
+    description: Local XAMPP
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AttendanceRecord:
+      type: object
+      properties:
+        student_id: { type: string, example: "201234" }
+        student_name: { type: string, example: "Ана Стоилкова" }
+        course: { type: string, example: "Мобилни апликации" }
+        class_name: { type: string, example: "Мобилни апликации" }
+        teacher_id: { type: string, example: "2" }
+        timestamp: { type: string, example: "2026-06-07 10:15:00" }
+    Error:
+      type: object
+      properties:
+        success: { type: boolean, example: false }
+        message: { type: string }
+
+paths:
+  /login.php:
+    post:
+      summary: Authenticate and receive a JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password, role]
+              properties:
+                username: { type: string, example: "prof" }
+                password: { type: string, example: "test123" }
+                role: { type: string, enum: [teacher, student, admin] }
+      responses:
+        '200':
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  token: { type: string }
+                  user:
+                    type: object
+                    properties:
+                      id: { type: string }
+                      full_name: { type: string }
+                      role: { type: string }
+                      student_id: { type: string }
+                      course: { type: string }
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /attendance.php:
+    post:
+      summary: Bulk upload attendance records (teacher app sync)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                records:
+                  type: array
+                  items: { $ref: '#/components/schemas/AttendanceRecord' }
+      responses:
+        '200':
+          description: Stored (duplicates ignored via UNIQUE student/teacher/day)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  received: { type: integer }
+                  inserted: { type: integer }
+        '401': { description: Missing/invalid token }
+    get:
+      summary: List attendance records (dashboard)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: date, in: query, schema: { type: string, format: date } }
+        - { name: course, in: query, schema: { type: string } }
+        - { name: student, in: query, schema: { type: string }, description: "matches id or name" }
+        - { name: teacher, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 100, maximum: 500 } }
+        - { name: offset, in: query, schema: { type: integer, default: 0 } }
+      responses:
+        '200':
+          description: Records (teachers are scoped to their own; admins see all)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  limit: { type: integer }
+                  offset: { type: integer }
+                  records:
+                    type: array
+                    items: { $ref: '#/components/schemas/AttendanceRecord' }
+        '401': { description: Missing/invalid token }
+
+  /statistics.php:
+    get:
+      summary: Aggregated statistics for the dashboard
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Totals, per-course counts and a 7-day trend
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  totals:
+                    type: object
+                    properties:
+                      today: { type: integer }
+                      week: { type: integer }
+                      all: { type: integer }
+                      unique_students: { type: integer }
+                  per_course:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course: { type: string }
+                        total: { type: integer }
+                  trend:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day: { type: string }
+                        total: { type: integer }
+        '401': { description: Missing/invalid token }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="topbar">
+    <span class="brand">CPS Dashboard</span>
+    <nav>
+        <a href="dashboard.html" class="active">Преглед</a>
+        <a href="records.html">Записи</a>
+    </nav>
+    <span>
+        <span class="user" id="userLabel"></span>
+        <button onclick="logout()">Одјава</button>
+    </span>
+</div>
+
+<div class="container">
+    <div class="cards">
+        <div class="card"><div class="value" id="statToday">–</div><div class="label">Денес</div></div>
+        <div class="card"><div class="value" id="statWeek">–</div><div class="label">Оваа недела</div></div>
+        <div class="card"><div class="value" id="statAll">–</div><div class="label">Вкупно записи</div></div>
+        <div class="card"><div class="value" id="statStudents">–</div><div class="label">Уникатни студенти</div></div>
+    </div>
+
+    <div class="charts">
+        <div class="panel">
+            <h2>Присуство по предмет</h2>
+            <canvas id="courseChart" height="220"></canvas>
+        </div>
+        <div class="panel">
+            <h2>Тренд (последни 7 дена)</h2>
+            <canvas id="trendChart" height="220"></canvas>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px;">
+        <h2>Последни записи</h2>
+        <table>
+            <thead>
+            <tr><th>Студент</th><th>ID</th><th>Предмет</th><th>Време</th></tr>
+            </thead>
+            <tbody id="recentBody"></tbody>
+        </table>
+        <div class="empty" id="recentEmpty" style="display:none;">Нема записи сè уште.</div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

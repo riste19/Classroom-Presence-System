@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">CPS Присуство</string>
+
+    <!-- Login -->
+    <string name="login_title">Classroom Presence System</string>
+    <string name="login_subtitle">Најави се за да продолжиш</string>
+    <string name="hint_username">Корисничко име / Email</string>
+    <string name="hint_password">Лозинка</string>
+    <string name="action_login">Најава</string>
+    <string name="role_teacher">Професор</string>
+    <string name="role_student">Студент</string>
+    <string name="login_failed">Неуспешна најава. Провери ги податоците.</string>
+    <string name="login_empty">Внеси корисничко име и лозинка.</string>
+
+    <!-- Teacher -->
+    <string name="teacher_title">Сесија за присуство</string>
+    <string name="session_active">Сесијата е активна — допри телефон на студент</string>
+    <string name="session_ended">Сесијата е завршена</string>
+    <string name="action_start_session">Започни сесија</string>
+    <string name="action_end_session">Заврши сесија</string>
+    <string name="action_sync">Синхронизирај</string>
+    <string name="action_simulate_tap">Симулирај tap (тест)</string>
+    <string name="pending_count">Несинхронизирани: %1$d</string>
+    <string name="tap_registered">Регистриран: %1$s</string>
+    <string name="sync_success">Синхронизирани %1$d записи</string>
+    <string name="sync_failed">Синхронизацијата не успеа — ќе се обиде повторно</string>
+    <string name="nfc_off">NFC е исклучен. Вклучи го во Settings за да примаш tap-ови.</string>
+
+    <!-- Student -->
+    <string name="student_title">Мое присуство</string>
+    <string name="student_ready">Спремен за tap — допри го твојот телефон на телефонот на професорот</string>
+    <string name="student_payload_info">Ќе се испрати: %1$s</string>
+    <string name="logout">Одјава</string>
+
+    <!-- HCE -->
+    <string name="hce_service_desc">CPS присуство — NFC сервис</string>
+    <string name="hce_aid_group_desc">Classroom Presence System</string>
+    <string name="payload_sent">Присуството е испратено ✓</string>
+</resources>

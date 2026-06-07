@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Dashboard — Записи</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="topbar">
+    <span class="brand">CPS Dashboard</span>
+    <nav>
+        <a href="dashboard.html">Преглед</a>
+        <a href="records.html" class="active">Записи</a>
+    </nav>
+    <span>
+        <span class="user" id="userLabel"></span>
+        <button onclick="logout()">Одјава</button>
+    </span>
+</div>
+
+<div class="container">
+    <div class="panel">
+        <h2>Сите записи за присуство</h2>
+
+        <div class="filters">
+            <div>
+                <label for="fDate">Датум</label>
+                <input id="fDate" type="date">
+            </div>
+            <div>
+                <label for="fCourse">Предмет</label>
+                <input id="fCourse" type="text" placeholder="пр. Мобилни апликации">
+            </div>
+            <div>
+                <label for="fStudent">Студент (име/ID)</label>
+                <input id="fStudent" type="text" placeholder="пр. Ана или 201234">
+            </div>
+            <button id="applyBtn">Филтрирај</button>
+            <button id="resetBtn" style="background:#6b7280;">Ресетирај</button>
+        </div>
+
+        <table>
+            <thead>
+            <tr><th>Студент</th><th>ID</th><th>Предмет</th><th>Час</th><th>Време</th></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <div class="empty" id="emptyMsg" style="display:none;">Нема записи за избраните филтри.</div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/records.js"></script>
+</body>
+</html>

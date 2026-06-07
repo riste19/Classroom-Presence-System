@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Dashboard — Најава</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="login-wrap">
+    <div class="login-card">
+        <h1>Classroom Presence</h1>
+        <p class="sub">Административен панел</p>
+
+        <form id="loginForm">
+            <label for="role">Улога</label>
+            <select id="role">
+                <option value="admin">Администратор</option>
+                <option value="teacher">Професор</option>
+            </select>
+
+            <label for="username">Корисничко име</label>
+            <input id="username" type="text" autocomplete="username" required>
+
+            <label for="password">Лозинка</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+
+            <button class="primary" type="submit">Најава</button>
+            <div class="error" id="error"></div>
+        </form>
+
+        <div class="hint">
+            Демо: <b>admin / admin123</b> (сите податоци) &nbsp;·&nbsp;
+            <b>prof / test123</b> (само свои)
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
